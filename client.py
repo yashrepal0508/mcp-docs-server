@@ -5,7 +5,7 @@ from mcp import ClientSession, StdioServerParameters
 # from groq import Groq
 import os
 from dotenv import load_dotenv
-# from utils import get_response_from_llm
+from utils import get_response_from_llm
 
 
 load_dotenv()
@@ -35,7 +35,16 @@ async def main():
                 }
             )
 
-            print(res.content)
+            context = res.content
+
+            user_prompt_with_context = f"Context: {context}\n\nQuery: {query}"
+            SYSTEM_PROMPT= """
+            Answer ONLY using the provided context. If info is missing say you don't know.
+            Keep every 'SOURCE:' line exactly; list sources at the end.
+            """
+            answer=get_response_from_llm(user_prompt=user_prompt_with_context, system_prompt=SYSTEM_PROMPT, model="llama-3.3-70b-versatile")
+
+            print("Answer: ",answer)
 
 
 if __name__ == "__main__":

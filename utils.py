@@ -1,5 +1,9 @@
 import trafilatura
+import os
+from dotenv import load_dotenv
+from groq import Groq
 
+load_dotenv()
 
 def clean_html_to_txt(html):
     try:  
@@ -13,3 +17,18 @@ def clean_html_to_txt(html):
             return extracted
     except Exception as e:
         raise e
+
+def get_response_from_llm(user_prompt, system_prompt, model):
+    api_key= os.getenv("GROK_API_KEY")
+    
+    gro_client = Groq(api_key=api_key)
+    
+    chat_completion = gro_client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+    )
+    
+    return chat_completion.choices[0].message.content
