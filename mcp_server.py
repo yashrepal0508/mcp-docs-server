@@ -1,9 +1,7 @@
-import http.client
 import json
 import os
 from dotenv import load_dotenv
 import httpx
-import asyncio
 from utils import clean_html_to_txt
 from fastmcp import FastMCP
 

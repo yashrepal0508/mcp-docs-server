@@ -19,7 +19,7 @@ def clean_html_to_txt(html):
         raise e
 
 def get_response_from_llm(user_prompt, system_prompt, model):
-    api_key= os.getenv("GROK_API_KEY")
+    api_key= os.getenv("GROQ_API_KEY")
     
     gro_client = Groq(api_key=api_key)
     
